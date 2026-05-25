@@ -1,14 +1,10 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import dynamic from 'next/dynamic';
+import { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { Globe2, Wifi, Activity, Database, Cpu, Radio, TrendingUp } from 'lucide-react';
+import { Globe2, Wifi, Activity, Database, Cpu, Radio, Lock } from 'lucide-react';
 import api from '@/lib/api';
 import styles from './network.module.css';
-
-// Dynamic import to avoid SSR issues with Three.js
-const GlobeComponent = dynamic(() => import('react-globe.gl'), { ssr: false });
 
 interface RelayEvent {
   id: string;
@@ -61,35 +57,10 @@ const fadeUp = {
 };
 
 export default function NetworkPage() {
-  const globeRef = useRef<any>(null);
   const [liveStats, setLiveStats] = useState<any>(null);
   const [regions, setRegions] = useState<RegionStat[]>([]);
   const [relayFeed, setRelayFeed] = useState<RelayEvent[]>([]);
-  const [arcs, setArcs] = useState<any[]>([]);
-  const [points, setPoints] = useState<any[]>([]);
-  const [countries, setCountries] = useState<any[]>([]);
-  const [globeMaterial, setGlobeMaterial] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-
-  // Fetch country outlines and load Three.js material on client side
-  useEffect(() => {
-    fetch('https://unpkg.com/three-globe/example/country-polygons.geojson')
-      .then(res => res.json())
-      .then(data => {
-        setCountries(data.features || []);
-      })
-      .catch(err => {
-        console.error('Failed to fetch country polygons:', err);
-      });
-
-    import('three').then(THREE => {
-      setGlobeMaterial(new THREE.MeshPhongMaterial({
-        color: '#07070a',
-        transparent: true,
-        opacity: 0.95
-      }));
-    });
-  }, []);
 
   // Load initial data
   useEffect(() => {
@@ -97,17 +68,6 @@ export default function NetworkPage() {
     const interval = setInterval(loadData, 10000); // Refresh every 10s
     return () => clearInterval(interval);
   }, []);
-
-  // Configure globe on mount
-  useEffect(() => {
-    if (globeRef.current) {
-      const globe = globeRef.current;
-      globe.controls().autoRotate = true;
-      globe.controls().autoRotateSpeed = 0.4;
-      globe.controls().enableZoom = true;
-      globe.pointOfView({ lat: 20, lng: 10, altitude: 2.2 });
-    }
-  }, [loading]);
 
   const loadData = async () => {
     try {
@@ -119,40 +79,11 @@ export default function NetworkPage() {
       const geoData = geoRes.data;
       setLiveStats(geoData.liveCounters);
 
-      // Build globe points from region stats
       const regionStats: RegionStat[] = geoData.stats || [];
       setRegions(regionStats);
 
-      const globePoints = (geoData.regions || []).map((r: any) => {
-        const stat = regionStats.find((s: RegionStat) => s.code === r.code);
-        return {
-          lat: r.lat,
-          lng: r.lng,
-          name: r.name,
-          code: r.code,
-          size: Math.min(0.4, 0.08 + (stat?.relayCount || 0) * 0.002),
-          color: stat ? '#34d399' : 'rgba(255,255,255,0.15)',
-          relayCount: stat?.relayCount || 0,
-        };
-      });
-      setPoints(globePoints);
-
-      // Build arcs from feed
       const feedData = feedRes.data || [];
       setRelayFeed(feedData.slice(0, 8));
-
-      const newArcs = feedData.slice(0, 12).map((e: any) => {
-        const meta = e.metadata ? JSON.parse(e.metadata) : {};
-        return {
-          startLat: meta.sourceLat || 0,
-          startLng: meta.sourceLng || 0,
-          endLat: meta.destLat || 0,
-          endLng: meta.destLng || 0,
-          color: TYPE_COLORS[e.type] || '#4f7df7',
-          type: e.type,
-        };
-      });
-      setArcs(newArcs);
     } catch (err) {
       console.error('Network data load error:', err);
     } finally {
@@ -202,49 +133,25 @@ export default function NetworkPage() {
       </motion.div>
 
       <div className={styles.mainContent}>
-        {/* Globe */}
-        <motion.div className={styles.globeContainer} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1.2 }}>
-          <GlobeComponent
-            ref={globeRef}
-            backgroundColor="rgba(0,0,0,0)"
-            showGlobe={true}
-            globeMaterial={globeMaterial || undefined}
-            showAtmosphere={true}
-            atmosphereColor="#4f7df7"
-            atmosphereAltitude={0.15}
-            // Country outlines
-            polygonsData={countries}
-            polygonCapColor={() => 'rgba(79, 125, 247, 0.015)'}
-            polygonSideColor={() => 'rgba(0, 0, 0, 0)'}
-            polygonStrokeColor={() => 'rgba(255, 255, 255, 0.08)'}
-            polygonAltitude={0.005}
-            polygonLabel={({ properties: d }: any) => `<div style="font-family:Inter,sans-serif;background:rgba(10,10,10,0.9);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:6px 10px;font-size:11px;color:#e0e0e0"><strong>${d.ADMIN}</strong></div>`}
-            // Points (nodes)
-            pointsData={points}
-            pointLat="lat"
-            pointLng="lng"
-            pointAltitude={0.01}
-            pointRadius="size"
-            pointColor="color"
-            pointLabel={(d: any) => `<div style="font-family:Inter,sans-serif;background:rgba(10,10,10,0.9);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:8px 12px;font-size:12px;color:#e0e0e0"><strong>${d.name}</strong><br/>${d.relayCount} relays</div>`}
-            // Arcs (relay traffic)
-            arcsData={arcs}
-            arcStartLat="startLat"
-            arcStartLng="startLng"
-            arcEndLat="endLat"
-            arcEndLng="endLng"
-            arcColor="color"
-            arcDashLength={0.4}
-            arcDashGap={0.2}
-            arcDashAnimateTime={1500}
-            arcStroke={0.5}
-            arcAltitudeAutoScale={0.3}
-            width={typeof window !== 'undefined' ? Math.min(window.innerWidth - 340, 700) : 600}
-            height={typeof window !== 'undefined' ? Math.min(window.innerHeight - 200, 550) : 450}
-          />
+        {/* Globe Placeholder (Coming Soon) */}
+        <motion.div className={styles.globeContainer} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '40px', maxWidth: '420px', gap: '20px' }}>
+            <div style={{ width: '72px', height: '72px', borderRadius: '50%', background: 'var(--surface-2)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent)', boxShadow: '0 0 24px rgba(79, 125, 247, 0.1)' }}>
+              <Globe2 size={36} className="spin" style={{ animationDuration: '20s' }} />
+            </div>
+            <div>
+              <h3 style={{ fontSize: '1.4rem', fontWeight: 600, color: 'var(--white)', marginBottom: '8px' }}>3D Network Map</h3>
+              <div className="badge badge-accent" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.75rem', padding: '6px 12px' }}>
+                <Lock size={12} /> Coming in Epoch 2
+              </div>
+            </div>
+            <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', lineHeight: '1.6' }}>
+              Geographical node distribution, connection latency arcs, and real-time data routing maps will be unlocked in the next network upgrade. Stay tuned for Epoch 2!
+            </p>
+          </div>
           <div className={styles.globeOverlay}>
-            <span className={styles.globePulse} />
-            <span className={styles.globeLabel}>LIVE RELAY NETWORK</span>
+            <span className={styles.globePulse} style={{ background: 'var(--accent)', boxShadow: '0 0 8px rgba(79, 125, 247, 0.4)' }} />
+            <span className={styles.globeLabel}>SYSTEM VISUALIZATION</span>
           </div>
         </motion.div>
 

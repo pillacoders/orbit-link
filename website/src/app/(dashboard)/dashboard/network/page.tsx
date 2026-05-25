@@ -67,7 +67,29 @@ export default function NetworkPage() {
   const [relayFeed, setRelayFeed] = useState<RelayEvent[]>([]);
   const [arcs, setArcs] = useState<any[]>([]);
   const [points, setPoints] = useState<any[]>([]);
+  const [countries, setCountries] = useState<any[]>([]);
+  const [globeMaterial, setGlobeMaterial] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+
+  // Fetch country outlines and load Three.js material on client side
+  useEffect(() => {
+    fetch('https://unpkg.com/three-globe/example/country-polygons.geojson')
+      .then(res => res.json())
+      .then(data => {
+        setCountries(data.features || []);
+      })
+      .catch(err => {
+        console.error('Failed to fetch country polygons:', err);
+      });
+
+    import('three').then(THREE => {
+      setGlobeMaterial(new THREE.MeshPhongMaterial({
+        color: '#07070a',
+        transparent: true,
+        opacity: 0.95
+      }));
+    });
+  }, []);
 
   // Load initial data
   useEffect(() => {
@@ -184,10 +206,19 @@ export default function NetworkPage() {
         <motion.div className={styles.globeContainer} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1.2 }}>
           <GlobeComponent
             ref={globeRef}
-            globeImageUrl="//unpkg.com/three-globe/example/img/earth-dark.jpg"
             backgroundColor="rgba(0,0,0,0)"
+            showGlobe={true}
+            globeMaterial={globeMaterial || undefined}
+            showAtmosphere={true}
             atmosphereColor="#4f7df7"
             atmosphereAltitude={0.15}
+            // Country outlines
+            polygonsData={countries}
+            polygonCapColor={() => 'rgba(79, 125, 247, 0.015)'}
+            polygonSideColor={() => 'rgba(0, 0, 0, 0)'}
+            polygonStrokeColor={() => 'rgba(255, 255, 255, 0.08)'}
+            polygonAltitude={0.005}
+            polygonLabel={({ properties: d }: any) => `<div style="font-family:Inter,sans-serif;background:rgba(10,10,10,0.9);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:6px 10px;font-size:11px;color:#e0e0e0"><strong>${d.ADMIN}</strong></div>`}
             // Points (nodes)
             pointsData={points}
             pointLat="lat"

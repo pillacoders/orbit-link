@@ -1,0 +1,428 @@
+/* ═══ PROFILE PAGE ═══ */
+
+.profilePage {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ─── Profile Header ─── */
+.profileHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28px 32px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  gap: 32px;
+}
+
+.avatarSection {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #4f7df7, #7c5bf5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: white;
+  flex-shrink: 0;
+}
+
+.identity h1 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 2px;
+}
+
+.title {
+  font-size: 0.78rem;
+  color: var(--accent);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.levelSection {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+  max-width: 400px;
+}
+
+.levelBadge {
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: rgba(79,125,247,0.08);
+  border: 1px solid rgba(79,125,247,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.levelNum {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--accent);
+  letter-spacing: 0.02em;
+}
+
+.xpBar {
+  flex: 1;
+}
+
+.xpInfo {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.xpInfo span {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--white);
+  font-family: var(--mono);
+}
+
+.xpTarget {
+  color: var(--text-dim) !important;
+}
+
+.xpTrack {
+  height: 6px;
+  border-radius: 100px;
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.xpFill {
+  height: 100%;
+  border-radius: 100px;
+  background: linear-gradient(90deg, #4f7df7, #7c5bf5);
+  box-shadow: 0 0 12px rgba(79,125,247,0.3);
+}
+
+/* ─── Stats Grid ─── */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.statCard {
+  background: var(--bg);
+  padding: 20px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: background 0.3s var(--ease);
+}
+.statCard:hover { background: var(--surface); }
+
+.statIcon {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.03);
+  flex-shrink: 0;
+}
+
+.statInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.statValue {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--white);
+  font-family: var(--mono);
+}
+
+.statLabel {
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ─── Contribution Mode ─── */
+.modeSection {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px 28px;
+}
+
+.modeSection h2 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 16px;
+}
+
+.modeGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.modeCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 20px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s var(--ease);
+  color: var(--text-muted);
+  text-align: center;
+}
+.modeCard:hover {
+  border-color: var(--border-hover);
+  background: rgba(255,255,255,0.03);
+}
+
+.modeActive {
+  border-color: rgba(79,125,247,0.3) !important;
+  background: rgba(79,125,247,0.05) !important;
+  color: var(--accent);
+}
+
+.modeLabel {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--white);
+}
+
+.modeDesc {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+}
+
+.modeActiveDot {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #34d399;
+  box-shadow: 0 0 6px rgba(52,211,153,0.4);
+}
+
+/* ─── Achievements ─── */
+.achievementsSection {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px 28px;
+}
+
+.achHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.achHeader h2 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--white);
+}
+
+.achFilters {
+  display: flex;
+  gap: 4px;
+}
+
+.achFilter {
+  padding: 6px 14px;
+  border-radius: 100px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--text-dim);
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s var(--ease);
+}
+.achFilter:hover { color: var(--text); }
+.achFilterActive {
+  background: var(--surface);
+  border-color: var(--border);
+  color: var(--white);
+}
+
+.achGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 8px;
+}
+
+.achCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  transition: all 0.3s var(--ease);
+  position: relative;
+}
+
+.achUnlocked {
+  background: rgba(255,255,255,0.02);
+  border-color: color-mix(in srgb, var(--rarity-color) 20%, transparent);
+}
+
+.achLocked {
+  opacity: 0.45;
+  background: transparent;
+}
+
+.achCard:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-1px);
+}
+
+.achIconWrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.03);
+  color: var(--rarity-color);
+  flex-shrink: 0;
+}
+
+.achInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.achTitle {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 2px;
+}
+
+.achDesc {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.achMeta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+
+.achRarity {
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.achXp {
+  font-size: 0.68rem;
+  font-family: var(--mono);
+  color: var(--text-dim);
+}
+
+.achCheck {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #34d399;
+  color: black;
+  font-size: 0.65rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 900px) {
+  .profileHeader { flex-direction: column; align-items: stretch; }
+  .levelSection { max-width: 100%; }
+  .statsGrid { grid-template-columns: repeat(3, 1fr); }
+  .modeGrid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+  .statsGrid { grid-template-columns: repeat(2, 1fr); }
+  .achGrid { grid-template-columns: 1fr; }
+  .modeGrid { grid-template-columns: 1fr; }
+}
+
+.achEmpty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  text-align: center;
+  gap: 8px;
+  grid-column: 1 / -1;
+}
+
+.achEmptyIcon {
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.achEmpty h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--white);
+}
+
+.achEmpty p {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  max-width: 320px;
+  margin-bottom: 8px;
+}

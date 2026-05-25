@@ -1,0 +1,323 @@
+/* ═══ NETWORK GLOBE PAGE ═══ */
+
+.networkPage {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  height: calc(100vh - 80px);
+  overflow: hidden;
+}
+
+/* ─── Live Counters Bar ─── */
+.countersBar {
+  display: flex;
+  gap: 1px;
+  background: var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  flex-shrink: 0;
+}
+
+.counterItem {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  background: var(--bg);
+  transition: background 0.3s var(--ease);
+}
+.counterItem:hover { background: var(--surface); }
+
+.counterIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.03);
+}
+
+.counterContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.counterValue {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--white);
+  font-family: var(--mono);
+  letter-spacing: -0.02em;
+}
+
+.counterLabel {
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ─── Main Content ─── */
+.mainContent {
+  display: flex;
+  gap: 16px;
+  flex: 1;
+  min-height: 0;
+}
+
+/* ─── Globe ─── */
+.globeContainer {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  min-height: 400px;
+}
+
+.globeContainer canvas {
+  cursor: grab;
+}
+.globeContainer canvas:active {
+  cursor: grabbing;
+}
+
+.globeOverlay {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: rgba(10, 10, 10, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  z-index: 10;
+}
+
+.globePulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #34d399;
+  box-shadow: 0 0 8px rgba(52, 211, 153, 0.4);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+.globeLabel {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--text-muted);
+}
+
+/* ─── Side Panel ─── */
+.sidePanel {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+
+/* ─── Relay Feed ─── */
+.feedCard {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.feedHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.feedHeader h3 {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--white);
+}
+
+.liveDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #34d399;
+  animation: pulse 2s infinite;
+}
+
+.feedList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.feedItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: var(--surface);
+  border: 1px solid rgba(255,255,255,0.03);
+  transition: border-color 0.2s var(--ease);
+}
+.feedItem:hover { border-color: var(--border-hover); }
+
+.feedIcon {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.04);
+  flex-shrink: 0;
+}
+
+.feedInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.feedType {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text);
+}
+
+.feedRoute {
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.feedMeta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+
+.feedMeta span {
+  font-size: 0.65rem;
+  font-family: var(--mono);
+  color: var(--text-dim);
+}
+.feedMeta span:first-child {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.feedEmpty {
+  text-align: center;
+  padding: 24px;
+  font-size: 0.82rem;
+  color: var(--text-dim);
+}
+
+/* ─── Top Regions ─── */
+.regionsCard {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  flex-shrink: 0;
+}
+
+.regionsCard h3 {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 12px;
+}
+
+.regionsList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.regionItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  transition: background 0.2s var(--ease);
+}
+.regionItem:hover { background: var(--surface); }
+
+.regionRank {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  width: 24px;
+  font-family: var(--mono);
+}
+
+.regionName {
+  flex: 1;
+  font-size: 0.82rem;
+  color: var(--text);
+}
+
+.regionCount {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--accent);
+  font-family: var(--mono);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 900px) {
+  .mainContent {
+    flex-direction: column;
+  }
+  .sidePanel {
+    width: 100%;
+    flex-direction: row;
+    overflow-x: auto;
+  }
+  .feedCard, .regionsCard {
+    min-width: 280px;
+  }
+  .countersBar {
+    flex-wrap: wrap;
+  }
+  .counterItem {
+    min-width: 45%;
+  }
+}

@@ -1,0 +1,462 @@
+.walletPage {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+/* ─── Cards ─── */
+.balanceCard, .walletCard, .card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+
+.balanceCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent), var(--violet));
+}
+
+.walletCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #34d399, var(--accent));
+}
+
+.balanceHeader, .cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.balanceHeader h2, .cardHeader h3 {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--white);
+}
+
+/* ─── Badges & Statuses ─── */
+.networkBadge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: rgba(130, 71, 229, 0.08);
+  border: 1px solid rgba(130, 71, 229, 0.15);
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: #c084fc;
+  font-weight: 500;
+}
+
+.statusIndicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.dotGreen {
+  background: #10b981;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.6);
+}
+
+.dotOrange {
+  background: #f59e0b;
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.6);
+}
+
+.dotRed {
+  background: #ef4444;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.6);
+}
+
+/* ─── Balance Details ─── */
+.balanceMain {
+  margin-bottom: 24px;
+  flex: 1;
+}
+
+.balanceAmount {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.amount {
+  font-size: 3.2rem;
+  font-weight: 700;
+  color: var(--white);
+  font-family: var(--mono);
+  line-height: 1.1;
+}
+
+.currency {
+  font-size: 1.2rem;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.usdValue {
+  font-size: 0.95rem;
+  color: var(--text-dim);
+  margin-top: 6px;
+}
+
+/* ─── Wallet Info ─── */
+.walletStatus {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+  margin-bottom: 24px;
+}
+
+.addressBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.addressRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.addressInput {
+  background: var(--surface-light);
+  border: 1px solid var(--border);
+  color: var(--white);
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  flex: 1;
+  width: 100%;
+}
+
+.balanceRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 14px;
+  background: var(--surface-light);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.balanceRow span:first-child {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+.balanceRow span:last-child {
+  font-family: var(--mono);
+  font-weight: 500;
+  color: var(--white);
+  font-size: 0.95rem;
+}
+
+/* ─── Alerts & Warnings ─── */
+.alertBox {
+  display: flex;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  margin-bottom: 20px;
+  align-items: flex-start;
+}
+
+.alertWarning {
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  color: #fbbf24;
+}
+
+.alertError {
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: #f87171;
+}
+
+.alertSuccess {
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  color: #34d399;
+}
+
+.alertIcon {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.alertText {
+  flex: 1;
+}
+
+.txLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: inherit;
+  text-decoration: underline;
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+/* ─── Buttons ─── */
+.actionButtons {
+  display: flex;
+  gap: 12px;
+}
+
+.btnPrimary, .btnSecondary, .btnAction {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+}
+
+.btnPrimary {
+  background: var(--accent);
+  color: var(--white);
+}
+
+.btnPrimary:hover:not(:disabled) {
+  background: var(--accent-light);
+  box-shadow: 0 0 15px rgba(79, 125, 247, 0.3);
+}
+
+.btnPrimary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btnSecondary {
+  background: var(--surface-light);
+  color: var(--white);
+  border: 1px solid var(--border);
+}
+
+.btnSecondary:hover:not(:disabled) {
+  background: var(--border);
+}
+
+.btnSecondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btnAction {
+  width: 100%;
+}
+
+/* ─── Staking & Yield ─── */
+.comingSoon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px 0;
+  color: var(--text-dim);
+  gap: 12px;
+}
+
+.comingSoon h4 {
+  color: var(--white);
+  font-size: 1.1rem;
+  margin-top: 8px;
+}
+
+.apyBadge {
+  margin-top: 8px;
+  padding: 6px 12px;
+  background: rgba(52, 211, 153, 0.08);
+  color: #34d399;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: 1px solid rgba(52, 211, 153, 0.15);
+}
+
+/* ─── Token Info ─── */
+.tokenInfoList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.infoRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9rem;
+  color: var(--text-dim);
+}
+
+.infoRow:last-child {
+  border-bottom: none;
+}
+
+.infoValue {
+  color: var(--white);
+  font-weight: 500;
+}
+
+.infoValueHash {
+  color: var(--accent);
+  font-family: var(--mono);
+}
+
+.docsLink {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--accent);
+  font-size: 0.9rem;
+  text-decoration: none;
+  margin-top: 8px;
+  width: fit-content;
+}
+
+.docsLink:hover {
+  text-decoration: underline;
+}
+
+/* ─── Transaction History ─── */
+.historySection {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.txList {
+  display: flex;
+  flex-direction: column;
+}
+
+.txItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.txItem:last-child {
+  border-bottom: none;
+}
+
+.txLeft {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.txIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--surface-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+}
+
+.txDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.txTitle {
+  font-weight: 500;
+  color: var(--white);
+  font-size: 0.95rem;
+}
+
+.txDate {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+
+.txAmount {
+  font-weight: 600;
+  font-family: var(--mono);
+}
+
+.txAmountPositive {
+  color: #10b981;
+}
+
+.txAmountNegative {
+  color: #ef4444;
+}
+
+.emptyState {
+  padding: 40px;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .actionButtons {
+    flex-direction: column;
+  }
+}

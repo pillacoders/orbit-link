@@ -1,0 +1,9 @@
+{
+  "network": "amoy",
+  "timestamp": "2026-05-11T05:19:51.356Z",
+  "contracts": {
+    "OrbitToken": "0xcDcC1EEDF4b983b613Eaa5b673692BC12e31c860",
+    "RewardDistributor": "0x5D881b95DEfF8dC5d5F674A1a6313A68dad5C314"
+  },
+  "deployer": "0x761199e4d9A6fd4D53Cd90947C7a89a43C2856AE"
+}

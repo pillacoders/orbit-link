@@ -1,0 +1,49 @@
+prompt-1:
+
+I will be making a bandwidth service completely, with an extension, website, application, discord bot the folders I have already created. I will be explaining all the details about each service clearly below.
+Extension : Users basically login with a wallet or google sign-in or email sign-in. First the installation of extension, then in it there should be signin/signup. When clicked it should redirect to the website for making the account. It should ask for the username the user will be using for that account, and all the basic stuff crypto extensions usually ask for. Then there should be this points farming, it should be based on the user activity, cookies collected, etc etc based on the live activity how much user is doing the extension should smartly collect points. And these points can be redeemed for testnet tokens later. There should be a perfect working referral system too. Also there should be tasks like joining our discord, telegram, twitter follow, etc etc I will be mentioning them all later. We are gonna be doing epochs, these epochs will be managed by admin wallet. When epoch should start, those epoch points, etc, etc.
+Ultimately we will be using poly amoy testnet for the transactions and shit, we are gonna deploy some smart contracts, a testnet token, etc.
+Website : The dashboard and all can be seen in the website, the referral system, etc, everything should be there in the website.
+
+prompt-2:
+I want you to create a complete production-ready project for a decentralized bandwidth sharing platform similar to Grass and Dawn, which are already well established in the market.
+
+Project Name: OrbitLink
+
+The platform should feel modern, premium, scalable, secure, futuristic, and enterprise-level. The UI/UX should look polished like a billion-dollar startup product with smooth animations, clean layouts, modern typography, responsive design, beautiful transitions, and both light and dark themes.
+
+I do NOT want a messy project. Everything should follow a proper and scalable folder structure with clean architecture and maintainable code.
+
+The project will contain multiple services including application, website, extension, adminpanel, discordbot, and server.
+
+OrbitLink is a decentralized bandwidth sharing and rewards platform where users contribute unused internet bandwidth and online activity through the extension and application and get rewarded with points. The platform should intelligently track user contribution based on uptime, internet quality, network consistency, extension activity, active usage, contribution quality, device activity, and bandwidth sharing contribution. Users should earn points dynamically depending on their contribution quality and consistency.
+
+These points will later be redeemable for tokens, rewards, testnet assets, whitelist spots, and future ecosystem benefits. The platform should support realtime updates, live tracking, multi-device support in future updates, scalable architecture, role-based access, realtime dashboards, and account synchronization.
+
+Users should be able to sign up using email, sign up or login with Google, login securely, create usernames, manage their profiles, and stay logged in securely. The onboarding process should feel smooth and modern. After signup or login, the platform should ask permission for bandwidth sharing, ask permission for startup launch, ask permissions required for the extension and application to function properly, and guide the user through onboarding steps. Authentication and account systems should feel similar to premium crypto and web3 applications.
+
+The extension is one of the main parts of the platform. When users install the extension, they should see a beautiful onboarding UI. Signin and signup should redirect to the website authentication system, and after login the extension should sync automatically with the user account.
+
+The extension should run intelligently in the background, track user contribution and activity, calculate points dynamically, show live earning stats, show node and activity status, display referral stats, allow connect and disconnect functionality, show realtime contribution information, and support notifications.
+
+The extension should intelligently reward users based on browsing activity, uptime, contribution consistency, cookies and activity collection logic, network contribution, and user engagement. The system should feel smart and automated.
+
+The website should act as the central dashboard for the platform. Users should be able to view earnings, track realtime contribution, see analytics and graphs, manage referrals, manage devices and sessions, track rewards, see streaks and daily bonus claims, manage account settings, see announcements, and participate in tasks and campaigns.
+
+The dashboard should contain earnings overview, realtime contribution graphs, node status, internet quality or health, connected devices, active sessions, referral earnings, leaderboard and ranking systems, reward history, epoch participation, and task completion progress. The UI should feel premium and highly interactive.
+
+The platform should include a powerful referral system. Users should get unique referral codes and links, referral tracking, referral rewards, referral analytics, and multi-level statistics. The referral system should be integrated across the website, extension, and future mobile application.
+
+The platform should support community tasks like joining Discord, joining Telegram, following Twitter/X, completing campaigns, and participating in community activities. Tasks should reward users with points. Admin should be able to create tasks, manage tasks, assign rewards, and track completion.
+
+The platform should support epochs similar to modern crypto ecosystems. Admin should be able to start and end epochs, manage epoch rewards, control distributions, manage leaderboard snapshots, and track epoch statistics. Users should be able to see current epoch progress, track epoch points, view rankings, and view rewards.
+
+The application should support future scalability for desktop and mobile usage. The application should contain login and signup, realtime dashboard, node and activity status, earnings analytics, referrals, notifications, settings, and account and device management. The application should sync perfectly with the website and extension.
+
+The admin panel should provide complete control over the ecosystem. Admin functionalities should include user management, referral monitoring, task management, announcement system, epoch management, reward management, analytics dashboard, live platform statistics, suspicious activity monitoring, account moderation, and campaign management. The admin dashboard should feel enterprise-level and highly detailed.
+
+The Discord bot should integrate with the platform ecosystem. Features should include user verification, wallet linking, role management, task verification, announcements, leaderboard display, epoch updates, reward notifications, and community engagement systems.
+
+Follow proper scalable folder structure and clean architecture. Do not leave placeholders unless absolutely necessary. Avoid dummy code whenever possible. The project should feel production-ready and enterprise-level. Keep every module clean and organized. Realtime updates should work smoothly across the ecosystem. The UI should feel futuristic, premium, and smooth. Use proper animations, transitions, loaders, charts, icons, and responsive layouts. The platform should feel like a real modern crypto and web3 startup product. Generate all required files, folders, components, APIs, pages, systems, and integrations properly. The codebase should be maintainable, scalable, and cleanly separated.
+
+Think and decide the best technologies, architecture, database structure, and implementation methods yourself depending on scalability, maintainability, performance, and production standards.

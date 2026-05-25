@@ -1,0 +1,339 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ─── User & Auth ───────────────────────────────────────────────
+
+model User {
+  id            String   @id @default(cuid())
+  email         String?  @unique
+  username      String   @unique
+  passwordHash  String?
+  googleId      String?  @unique
+  walletAddress String?  @unique
+  avatarUrl     String?
+  role          String   @default("USER") // USER | ADMIN
+  referralCode  String   @unique
+  referredById  String?
+  referredBy    User?    @relation("UserReferrals", fields: [referredById], references: [id])
+  referrals     User[]   @relation("UserReferrals")
+  totalPoints   Float    @default(0)
+  isActive      Boolean  @default(true)
+  inviteCode    String?  // Personal invite code for waitlist system
+  waitlistPos   Int?     // Queue position (null = fully activated)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  sessions            Session[]
+  nodes               Node[]
+  pointsTransactions  PointsTransaction[]
+  referralsMade       Referral[]           @relation("ReferrerReferrals")
+  referralsReceived   Referral[]           @relation("RefereeReferrals")
+  taskCompletions     TaskCompletion[]
+  epochParticipations EpochParticipation[]
+  dailyBonuses        DailyBonus[]
+  profile             UserProfile?
+  achievements        UserAchievement[]
+  guildMemberships    GuildMember[]
+
+  @@index([email])
+  @@index([walletAddress])
+  @@index([referralCode])
+}
+
+model Session {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token      String   @unique
+  deviceInfo String?
+  ipAddress  String?
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+
+  @@index([userId])
+  @@index([token])
+}
+
+// ─── Nodes (Extension / Application instances) ──────────────────
+
+model Node {
+  id                String   @id @default(cuid())
+  userId            String
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type              String   @default("EXTENSION") // EXTENSION | APPLICATION
+  status            String   @default("OFFLINE")   // ONLINE | OFFLINE
+  uptimeSeconds     Int      @default(0)
+  lastHeartbeat     DateTime?
+  connectionQuality Float    @default(0) // 0-100 score
+  ipAddress         String?
+  userAgent         String?
+  region            String?  // Country/region code for geo mapping
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([userId])
+  @@index([status])
+}
+
+// ─── Points System ──────────────────────────────────────────────
+
+model PointsTransaction {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  amount    Float
+  type      String   // EARNING | REFERRAL | TASK | EPOCH_REWARD | BONUS | REDEMPTION
+  source    String?  // Description of source
+  metadata  String?  // JSON metadata
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([type])
+  @@index([createdAt])
+}
+
+// ─── Referral System ────────────────────────────────────────────
+
+model Referral {
+  id           String   @id @default(cuid())
+  referrerId   String
+  referrer     User     @relation("ReferrerReferrals", fields: [referrerId], references: [id])
+  refereeId    String
+  referee      User     @relation("RefereeReferrals", fields: [refereeId], references: [id])
+  code         String
+  pointsEarned Float    @default(0)
+  status       String   @default("ACTIVE") // ACTIVE | INACTIVE
+  createdAt    DateTime @default(now())
+
+  @@unique([referrerId, refereeId])
+  @@index([referrerId])
+  @@index([refereeId])
+  @@index([code])
+}
+
+// ─── Tasks & Campaigns ─────────────────────────────────────────
+
+model Task {
+  id           String   @id @default(cuid())
+  title        String
+  description  String
+  type         String   // DISCORD | TELEGRAM | TWITTER | CUSTOM
+  rewardPoints Float
+  xpReward     Int      @default(0)
+  url          String?
+  icon         String?
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  completions TaskCompletion[]
+}
+
+model TaskCompletion {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  taskId      String
+  task        Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  status      String   @default("PENDING") // PENDING | VERIFIED | REJECTED
+  completedAt DateTime @default(now())
+
+  @@unique([userId, taskId])
+  @@index([userId])
+  @@index([taskId])
+}
+
+// ─── Epochs (Seasonal System) ───────────────────────────────────
+
+model Epoch {
+  id                  String   @id @default(cuid())
+  name                String
+  seasonName          String?  // e.g. "Genesis Relay", "Edge Intelligence"
+  description         String?
+  startDate           DateTime
+  endDate             DateTime
+  totalPointsPool     Float    @default(0)
+  rewardPoolProgress  Float    @default(0)
+  status              String   @default("UPCOMING") // UPCOMING | ACTIVE | ENDED
+  multiplier          Float    @default(1.0)
+  badgeReward         String?  // JSON badge data for epoch-exclusive rewards
+  cosmetics           String?  // JSON cosmetic rewards
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  participations EpochParticipation[]
+}
+
+model EpochParticipation {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  epochId      String
+  epoch        Epoch    @relation(fields: [epochId], references: [id], onDelete: Cascade)
+  pointsEarned Float    @default(0)
+  rank         Int?
+  snapshotData String?  // JSON snapshot
+  createdAt    DateTime @default(now())
+
+  @@unique([userId, epochId])
+  @@index([userId])
+  @@index([epochId])
+}
+
+// ─── Announcements ──────────────────────────────────────────────
+
+model Announcement {
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  type      String   @default("INFO") // INFO | WARNING | UPDATE | EVENT
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ─── Daily Bonus ────────────────────────────────────────────────
+
+model DailyBonus {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  streakCount  Int      @default(1)
+  lastClaimed  DateTime @default(now())
+  pointsEarned Float    @default(0)
+
+  @@index([userId])
+}
+
+// ─── AI Relay Simulation ────────────────────────────────────────
+
+model RelayEvent {
+  id          String   @id @default(cuid())
+  type        String   // INFERENCE | INDEXING | ROUTING | EDGE_TRAFFIC | DATASET
+  source      String   // Region/country code
+  destination String?
+  dataSize    Float    @default(0)  // MB
+  latency     Float    @default(0)  // ms
+  status      String   @default("COMPLETED") // PENDING | ROUTING | COMPLETED
+  metadata    String?  // JSON
+  createdAt   DateTime @default(now())
+
+  @@index([type])
+  @@index([createdAt])
+}
+
+model NetworkStats {
+  id              String   @id @default(cuid())
+  totalNodes      Int      @default(0)
+  onlineNodes     Int      @default(0)
+  totalRelays     Int      @default(0)
+  totalDataRouted Float    @default(0) // GB
+  countriesActive Int      @default(0)
+  snapshotData    String?  // JSON with country breakdown
+  createdAt       DateTime @default(now())
+
+  @@index([createdAt])
+}
+
+// ─── Gamification: Profiles, Levels, XP ─────────────────────────
+
+model UserProfile {
+  id               String   @id @default(cuid())
+  userId           String   @unique
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  xp               Int      @default(0)
+  level            Int      @default(1)
+  title            String   @default("Relay Initiate")
+  trustScore       Float    @default(50) // 0-100 anti-sybil score
+  reputationScore  Float    @default(0)
+  contributionMode String   @default("PASSIVE") // PASSIVE | AI_ASSIST | EDGE_ROUTING | SMART
+  badges           String?  // JSON array of badge IDs
+  cosmetics        String?  // JSON cosmetic config
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([userId])
+  @@index([level])
+  @@index([trustScore])
+}
+
+// ─── Achievements & Badges ──────────────────────────────────────
+
+model Achievement {
+  id          String   @id @default(cuid())
+  key         String   @unique // e.g. "first_relay", "streak_7"
+  title       String
+  description String
+  icon        String?
+  category    String   // CONTRIBUTION | SOCIAL | STREAK | HIDDEN | EPOCH
+  xpReward    Int      @default(0)
+  rarity      String   @default("COMMON") // COMMON | UNCOMMON | RARE | EPIC | LEGENDARY
+  isHidden    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
+
+model UserAchievement {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  achievementId String
+  unlockedAt    DateTime @default(now())
+
+  @@unique([userId, achievementId])
+  @@index([userId])
+}
+
+// ─── Guilds / Teams ─────────────────────────────────────────────
+
+model Guild {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  tag         String   @unique // 3-5 char tag e.g. "ORBT"
+  leaderId    String
+  xp          Int      @default(0)
+  level       Int      @default(1)
+  maxMembers  Int      @default(50)
+  isPublic    Boolean  @default(true)
+  avatarUrl   String?
+  metadata    String?  // JSON
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  members GuildMember[]
+
+  @@index([name])
+}
+
+model GuildMember {
+  id       String   @id @default(cuid())
+  guildId  String
+  guild    Guild    @relation(fields: [guildId], references: [id], onDelete: Cascade)
+  userId   String
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role     String   @default("MEMBER") // LEADER | OFFICER | MEMBER
+  joinedAt DateTime @default(now())
+
+  @@unique([guildId, userId])
+  @@index([userId])
+}
+
+// ─── Invite / Waitlist System ───────────────────────────────────
+
+model InviteCode {
+  id        String   @id @default(cuid())
+  code      String   @unique
+  creatorId String
+  maxUses   Int      @default(5)
+  usedCount Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  @@index([code])
+}

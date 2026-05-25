@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Nexus-inspired premium dark UI theme with ultra-modern design">
+    <title>Nexus Theme — Ultra Premium Dark UI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="nexus.css">
+</head>
+<body>
+
+    <!-- Dot Grid Background -->
+    <div class="dot-grid"></div>
+    <!-- Edge Glow Vignette -->
+    <div class="vignette vignette-top"></div>
+    <div class="vignette vignette-bottom"></div>
+
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="nav-inner">
+            <a href="#" class="nav-brand">
+                <svg class="nav-logo-svg" width="28" height="28" viewBox="0 0 32 32" fill="none">
+                    <path d="M16 2L2 9.5V22.5L16 30L30 22.5V9.5L16 2Z" stroke="white" stroke-width="1.5" fill="none"/>
+                    <path d="M16 2L16 30" stroke="white" stroke-width="0.8" opacity="0.4"/>
+                    <path d="M2 9.5L30 22.5" stroke="white" stroke-width="0.8" opacity="0.4"/>
+                    <path d="M30 9.5L2 22.5" stroke="white" stroke-width="0.8" opacity="0.4"/>
+                </svg>
+                <span>NEXUS</span>
+            </a>
+            <div class="nav-links">
+                <a href="#products" class="nav-link">Products</a>
+                <a href="#technology" class="nav-link">Technology</a>
+                <a href="#network" class="nav-link">Network</a>
+                <a href="#blog" class="nav-link">Blog</a>
+            </div>
+            <a href="#cta" class="nav-cta">
+                Connect
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero" id="hero">
+        <div class="hero-main">
+            <div class="hero-content">
+                <h1 class="hero-heading reveal-up">
+                    The Infrastructure<br>
+                    for <span class="hero-em">Verifiable</span><br>
+                    Intelligence
+                </h1>
+                <p class="hero-sub reveal-up" data-delay="1">
+                    Purpose-built for high-performance applications. Cryptographic trust at planetary scale.
+                </p>
+                <div class="hero-actions reveal-up" data-delay="2">
+                    <a href="#" class="btn-solid">
+                        Get Started
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+                    </a>
+                    <a href="#technology" class="btn-ghost-pill">
+                        Read Docs
+                    </a>
+                </div>
+            </div>
+            <aside class="hero-stats reveal-up" data-delay="2">
+                <div class="hero-stat-item">
+                    <span class="stat-label">ERC20 tokens deployed</span>
+                    <div class="stat-value"><span class="counter" data-target="4443">0</span></div>
+                </div>
+                <div class="hero-stat-item">
+                    <span class="stat-label">Active nodes</span>
+                    <div class="stat-value"><span class="counter" data-target="60150">0</span><span class="stat-unit">K</span></div>
+                </div>
+                <div class="hero-stat-item">
+                    <span class="stat-label">Active Cities</span>
+                    <div class="stat-value"><span class="counter" data-target="1120">0</span></div>
+                </div>
+                <div class="hero-stat-item">
+                    <span class="stat-label">Supercomputer power (ops/s)</span>
+                    <div class="stat-value"><span class="counter" data-target="269900000">0</span><span class="stat-unit">M</span></div>
+                </div>
+            </aside>
+        </div>
+        <div class="hero-scroll-hint reveal-up" data-delay="3">
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- Products Section (Z-pattern) -->
+    <section class="section" id="products">
+        <div class="container">
+            <!-- Product 1 -->
+            <div class="z-block reveal-up">
+                <div class="z-text">
+                    <span class="eyebrow">01 — PRODUCT</span>
+                    <h2 class="section-heading">Introducing<br><span class="hero-em">USDX</span></h2>
+                    <p class="section-body">The default currency of the stack — trusted by traders, aligned with builders, and purpose-built for scale. It unifies the system by powering every position, fee, and settlement across the ecosystem.</p>
+                    <a href="#" class="btn-ghost-pill">
+                        Learn More
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+                    </a>
+                </div>
+                <div class="z-visual">
+                    <div class="visual-orb orb-blue">
+                        <div class="orb-ring"></div>
+                        <div class="orb-ring orb-ring-2"></div>
+                        <div class="orb-core"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="z-block z-reverse reveal-up">
+                <div class="z-text">
+                    <span class="eyebrow">02 — EXCHANGE</span>
+                    <h2 class="section-heading">Exchange<br><span class="hero-em">Alpha</span></h2>
+                    <p class="section-body">Native orderbook, deep liquidity, and lightning-fast execution. Trade perpetual futures with up to 50x leverage, securely and seamlessly.</p>
+                    <div class="btn-row">
+                        <a href="#" class="btn-solid">
+                            Get Early Access
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+                        </a>
+                        <a href="#" class="btn-ghost-pill">Developer Docs</a>
+                    </div>
+                </div>
+                <div class="z-visual">
+                    <div class="visual-hex">
+                        <div class="hex-grid">
+                            <div class="hex-cell"></div><div class="hex-cell"></div><div class="hex-cell"></div>
+                            <div class="hex-cell active"></div><div class="hex-cell"></div><div class="hex-cell active"></div>
+                            <div class="hex-cell"></div><div class="hex-cell active"></div><div class="hex-cell"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Section -->
+    <section class="section" id="technology">
+        <div class="container">
+            <div class="section-header reveal-up">
+                <span class="eyebrow">TECHNOLOGY</span>
+                <h2 class="section-heading center">The Layer 1<br><span class="hero-em">Architecture</span></h2>
+            </div>
+
+            <div class="tech-grid">
+                <div class="tech-card reveal-up">
+                    <div class="tech-number">01</div>
+                    <h3 class="tech-title">Enshrined Coprocessors</h3>
+                    <p class="tech-body">L1-native execution engines that deliver real-time financial performance with full EVM composability.</p>
+                    <div class="tech-line"></div>
+                </div>
+                <div class="tech-card reveal-up" data-delay="1">
+                    <div class="tech-number">02</div>
+                    <h3 class="tech-title">Dual Core Architecture</h3>
+                    <p class="tech-body">Parallel general-purpose and special-purpose financial state machines in one unified environment.</p>
+                    <div class="tech-line"></div>
+                </div>
+                <div class="tech-card reveal-up" data-delay="2">
+                    <div class="tech-number">03</div>
+                    <h3 class="tech-title">Optimized Performance</h3>
+                    <p class="tech-body">Every node runs zkVM 3.0 — verifiable and low latency by design. Validation scales with compute power.</p>
+                    <div class="tech-line"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Network / Join Section -->
+    <section class="section" id="network">
+        <div class="container">
+            <div class="join-block reveal-up">
+                <div class="join-content">
+                    <span class="eyebrow">JOIN THE NETWORK</span>
+                    <h2 class="section-heading">Earn Rewards.<br><span class="hero-em">Prove the Future.</span></h2>
+                    <p class="section-body">Contribute idle compute. Connect in one click from any device. Earn points as a record of your early participation.</p>
+                </div>
+                <div class="join-steps">
+                    <div class="step reveal-up">
+                        <span class="step-num">(01)</span>
+                        <span class="step-text">Contribute your idle compute to the Layer 1</span>
+                    </div>
+                    <div class="step reveal-up" data-delay="1">
+                        <span class="step-num">(02)</span>
+                        <span class="step-text">Connect in one click from any device</span>
+                    </div>
+                    <div class="step reveal-up" data-delay="2">
+                        <span class="step-num">(03)</span>
+                        <span class="step-text">Earn Testnet Points for early participation</span>
+                    </div>
+                    <div class="step reveal-up" data-delay="3">
+                        <span class="step-num">(04)</span>
+                        <span class="step-text">Run nodes for more proving power</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog / What's New -->
+    <section class="section" id="blog">
+        <div class="container">
+            <div class="section-header reveal-up">
+                <span class="eyebrow">WHAT'S NEW</span>
+                <h2 class="section-heading center">Latest <span class="hero-em">Updates</span></h2>
+            </div>
+            <div class="blog-grid">
+                <a href="#" class="blog-card blog-featured reveal-up">
+                    <div class="blog-img" style="background: linear-gradient(135deg, #0a0a2e, #1a1a4e, #0a0a2e);"></div>
+                    <div class="blog-info">
+                        <span class="blog-tag">Announcement</span>
+                        <h3>Introducing USDX</h3>
+                        <p>The native dollar of the economy — quoted in every market, used by every app, and settled across every trade.</p>
+                    </div>
+                </a>
+                <a href="#" class="blog-card reveal-up" data-delay="1">
+                    <div class="blog-img" style="background: linear-gradient(135deg, #0a1a2e, #0a2e4e, #0a1a2e);"></div>
+                    <div class="blog-info">
+                        <span class="blog-tag">Research</span>
+                        <h3>What is Verifiable Finance</h3>
+                        <p>Transactions guaranteed by cryptographic proof rather than institutional trust.</p>
+                    </div>
+                </a>
+                <a href="#" class="blog-card reveal-up" data-delay="2">
+                    <div class="blog-img" style="background: linear-gradient(135deg, #1a0a2e, #2e0a4e, #1a0a2e);"></div>
+                    <div class="blog-info">
+                        <span class="blog-tag">Architecture</span>
+                        <h3>Coprocessor Framework</h3>
+                        <p>L1-native deterministic execution engines with full EVM composability.</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section cta-section" id="cta">
+        <div class="container">
+            <div class="cta-block reveal-up">
+                <h2 class="cta-heading">Build the Future<br>With <span class="hero-em">Us</span></h2>
+                <p class="cta-sub">We're building the foundation for the AI economy — where agents, applications, and markets run with cryptographic trust at planetary scale.</p>
+                <div class="btn-row center">
+                    <a href="#" class="btn-solid">
+                        Join Discord
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+                    </a>
+                    <a href="#" class="btn-ghost-pill">Open Roles</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="nav-brand">
+                        <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
+                            <path d="M16 2L2 9.5V22.5L16 30L30 22.5V9.5L16 2Z" stroke="white" stroke-width="1.5" fill="none"/>
+                        </svg>
+                        <span>NEXUS</span>
+                    </a>
+                </div>
+                <div class="footer-col">
+                    <h4>Developers</h4>
+                    <a href="#">Docs</a>
+                    <a href="#">Github</a>
+                    <a href="#">Whitepaper</a>
+                    <a href="#">Specification</a>
+                </div>
+                <div class="footer-col">
+                    <h4>About</h4>
+                    <a href="#">Open Roles</a>
+                    <a href="#">Discord</a>
+                    <a href="#">Blog</a>
+                    <a href="#">Media</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Use</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Nexus Theme. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="nexus.js"></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "name": "orbitlink-discord-bot",
+  "version": "1.0.0",
+  "description": "OrbitLink Discord Bot - Community engagement and verification",
+  "main": "src/bot.js",
+  "scripts": {
+    "start": "node src/bot.js",
+    "dev": "node --watch src/bot.js",
+    "deploy-commands": "node src/deploy-commands.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.18.0",
+    "dotenv": "^16.5.0"
+  }
+}

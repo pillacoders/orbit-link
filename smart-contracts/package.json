@@ -1,0 +1,17 @@
+{
+  "name": "orbitlink-contracts",
+  "version": "1.0.0",
+  "description": "OrbitLink Smart Contracts - ERC-20 Token & Reward Distribution",
+  "scripts": {
+    "compile": "npx hardhat compile",
+    "test": "npx hardhat test",
+    "deploy:amoy": "npx hardhat run scripts/deploy.js --network amoy",
+    "deploy:local": "npx hardhat run scripts/deploy.js --network localhost"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "hardhat": "^2.22.0",
+    "@openzeppelin/contracts": "^5.3.0",
+    "dotenv": "^16.5.0"
+  }
+}

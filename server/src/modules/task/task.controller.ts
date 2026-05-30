@@ -14,8 +14,17 @@ export class TaskController {
   static async complete(req: AuthRequest, res: Response, next: NextFunction) {
     try {
       const { taskId } = req.params;
-      const result = await TaskService.completeTask(req.userId!, taskId as string);
+      const { telegramUsername, twitterUsername } = req.body;
+      const result = await TaskService.completeTask(req.userId!, taskId as string, telegramUsername, twitterUsername);
       return ApiResponse.success(res, result, 'Task completed!');
+    } catch (error) { next(error); }
+  }
+
+  static async verifyDiscord(req: AuthRequest, res: Response, next: NextFunction) {
+    try {
+      const { code } = req.body;
+      const result = await TaskService.verifyDiscordTask(req.userId!, code);
+      return ApiResponse.success(res, result, 'Discord task verified successfully!');
     } catch (error) { next(error); }
   }
 

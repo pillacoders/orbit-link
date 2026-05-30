@@ -119,8 +119,12 @@ class ApiClient {
     return this.request('/tasks');
   }
 
-  completeTask(taskId: string) {
-    return this.request(`/tasks/${taskId}/complete`, { method: 'POST' });
+  completeTask(taskId: string, body?: any) {
+    return this.request(`/tasks/${taskId}/complete`, { method: 'POST', body });
+  }
+
+  verifyDiscordTask(code: string) {
+    return this.request('/tasks/discord/verify', { method: 'POST', body: { code } });
   }
 
   // Epochs

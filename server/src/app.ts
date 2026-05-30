@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import { createServer } from 'http';
+import path from 'path';
 import { env } from './config/env';
 import { initSocket } from './config/socket';
 import { errorHandler } from './middleware/errorHandler';
@@ -21,6 +22,8 @@ import guildRoutes from './modules/guild/guild.routes';
 
 // Services
 import { RelaySimulator } from './modules/relay/relay.service';
+import { TelegramBotService } from './services/telegramBot';
+import { DiscordService } from './services/discord.service';
 
 const app = express();
 const httpServer = createServer(app);
@@ -36,6 +39,9 @@ app.use(cors({
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(rateLimiter(200, 60000)); // 200 requests per minute globally
+
+// Serve admin dashboard static files
+app.use('/admin-dashboard', express.static(path.join(__dirname, '../../admin-dashboard')));
 
 // Health check
 app.get('/api/health', (_req, res) => {
@@ -72,6 +78,12 @@ httpServer.listen(env.PORT, () => {
   // Start AI Relay Simulation Engine
   const relaySimulator = new RelaySimulator();
   relaySimulator.start();
+
+  // Start Telegram Bot Service for Boost Rewards
+  TelegramBotService.start();
+
+  // Sync Discord Task URLs
+  DiscordService.syncTaskUrl();
 });
 
 export default app;

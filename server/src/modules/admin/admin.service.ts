@@ -88,4 +88,88 @@ export class AdminService {
   static async deleteAnnouncement(id: string) {
     return prisma.announcement.delete({ where: { id } });
   }
+
+  static async getPendingCompletions() {
+    return prisma.taskCompletion.findMany({
+      where: { status: 'PENDING' },
+      include: {
+        user: {
+          select: { id: true, username: true, email: true, walletAddress: true }
+        },
+        task: {
+          select: { id: true, title: true, type: true, rewardPoints: true }
+        }
+      },
+      orderBy: { completedAt: 'asc' }
+    });
+  }
+
+  static async approveCompletion(completionId: string) {
+    const completion = await prisma.taskCompletion.findUnique({
+      where: { id: completionId },
+      include: { task: true, user: true }
+    });
+    if (!completion) throw { statusCode: 404, message: 'Task completion not found' };
+    if (completion.status === 'VERIFIED') throw { statusCode: 400, message: 'Task already approved' };
+
+    // Update status to VERIFIED
+    const updatedCompletion = await prisma.taskCompletion.update({
+      where: { id: completionId },
+      data: { status: 'VERIFIED' }
+    });
+
+    // Parse metadata to extract Twitter username
+    let twitterUsername = '';
+    if (completion.metadata) {
+      try {
+        const meta = JSON.parse(completion.metadata);
+        twitterUsername = meta.twitterUsername || '';
+      } catch (e) {
+        console.error('Error parsing task completion metadata', e);
+      }
+    }
+
+    // Award points
+    await prisma.$transaction([
+      prisma.user.update({
+        where: { id: completion.userId },
+        data: { totalPoints: { increment: completion.task.rewardPoints } }
+      }),
+      prisma.pointsTransaction.create({
+        data: {
+          userId: completion.userId,
+          amount: completion.task.rewardPoints,
+          type: 'TASK',
+          source: `Task: ${completion.task.title}`,
+          metadata: JSON.stringify({ 
+            twitterUsername,
+            completionId 
+          })
+        }
+      })
+    ]);
+
+    // Check and trigger achievements / gamification
+    try {
+      const { AchievementService } = require('../gamification/achievement.service');
+      await AchievementService.checkAchievements(completion.userId, 'task', { taskTitle: completion.task.title });
+    } catch (achError) {
+      console.error('Error triggering task achievement:', achError);
+    }
+
+    return updatedCompletion;
+  }
+
+  static async rejectCompletion(completionId: string) {
+    const completion = await prisma.taskCompletion.findUnique({
+      where: { id: completionId }
+    });
+    if (!completion) throw { statusCode: 404, message: 'Task completion not found' };
+    if (completion.status === 'VERIFIED') throw { statusCode: 400, message: 'Cannot reject an already verified task' };
+
+    return prisma.taskCompletion.update({
+      where: { id: completionId },
+      data: { status: 'REJECTED' }
+    });
+  }
 }

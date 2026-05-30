@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OrbitLink Admin Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <!-- Chart.js for premium analytics graphs -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Lucide Icons for clean visuals -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <!-- Background Ambient Glows -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+
+  <!-- Login Modal Overlay -->
+  <div id="login-overlay" class="login-overlay">
+    <div class="login-card glass">
+      <div class="brand">
+        <div class="logo-icon">
+          <i data-lucide="cpu" class="neon-color"></i>
+        </div>
+        <h2>OrbitLink <span class="accent-text">Admin</span></h2>
+        <p>Access infrastructure relay controllers & manual verifications</p>
+      </div>
+
+      <div id="login-error" class="error-msg hide"></div>
+
+      <form id="login-form">
+        <div class="input-group">
+          <label for="username">Username or Email</label>
+          <input type="text" id="username" required placeholder="Enter username or email">
+        </div>
+        <div class="input-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" required placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn-primary">
+          Authenticate <i data-lucide="shield-check"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Main Portal Layout -->
+  <div id="app-container" class="app-container hide">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar glass">
+      <div class="sidebar-brand">
+        <div class="logo-icon-sm">
+          <i data-lucide="cpu" class="neon-color"></i>
+        </div>
+        <h3>OrbitLink</h3>
+      </div>
+      
+      <div class="admin-profile">
+        <div class="avatar" id="admin-avatar">A</div>
+        <div class="admin-details">
+          <span class="admin-name" id="admin-username">Administrator</span>
+          <span class="admin-badge">SYSTEM ADMIN</span>
+        </div>
+      </div>
+
+      <nav class="nav-menu">
+        <a href="#" class="nav-item active" data-tab="overview">
+          <i data-lucide="layout-dashboard"></i> Overview
+        </a>
+        <a href="#" class="nav-item" data-tab="approvals">
+          <i data-lucide="check-square"></i> Task Approvals
+          <span id="pending-badge" class="badge-count hide">0</span>
+        </a>
+        <a href="#" class="nav-item" data-tab="users">
+          <i data-lucide="users"></i> User Management
+        </a>
+        <a href="#" class="nav-item" data-tab="announcements">
+          <i data-lucide="megaphone"></i> Announcements
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button id="logout-btn" class="btn-logout">
+          <i data-lucide="log-out"></i> Disconnect
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <header class="top-header">
+        <h1 id="page-title">Overview</h1>
+        <div id="system-status" class="system-status">
+          <span class="pulse-indicator"></span> Relay Cluster: <span class="green-text">Online</span>
+        </div>
+      </header>
+
+      <!-- TAB content 1: Overview -->
+      <section id="tab-overview" class="tab-pane active">
+        <!-- Stats Widgets Grid -->
+        <div class="stats-grid">
+          <div class="stat-card glass">
+            <div class="stat-header">
+              <span>Total Users</span>
+              <div class="icon-wrap color-accent"><i data-lucide="users"></i></div>
+            </div>
+            <h2 id="stat-total-users">-</h2>
+            <div class="stat-footer">
+              <span id="stat-new-users" class="green-text">+0 today</span>
+            </div>
+          </div>
+
+          <div class="stat-card glass">
+            <div class="stat-header">
+              <span>Active Nodes</span>
+              <div class="icon-wrap color-purple"><i data-lucide="activity"></i></div>
+            </div>
+            <h2 id="stat-active-nodes">-</h2>
+            <div class="stat-footer">
+              <span id="stat-online-nodes" class="green-text">0 online</span> / total
+            </div>
+          </div>
+
+          <div class="stat-card glass">
+            <div class="stat-header">
+              <span>Distributed Points</span>
+              <div class="icon-wrap color-green"><i data-lucide="award"></i></div>
+            </div>
+            <h2 id="stat-total-points">-</h2>
+            <div class="stat-footer">
+              <span id="stat-today-points" class="green-text">+0 today</span>
+            </div>
+          </div>
+
+          <div class="stat-card glass">
+            <div class="stat-header">
+              <span>Active Epoch</span>
+              <div class="icon-wrap color-orange"><i data-lucide="layers"></i></div>
+            </div>
+            <h2 id="stat-active-epoch">-</h2>
+            <div class="stat-footer">
+              Relay Seasonal Epoch
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts Panel -->
+        <div class="charts-row">
+          <div class="chart-container glass">
+            <h3>Points Distributed Distribution</h3>
+            <canvas id="pointsChart"></canvas>
+          </div>
+          <div class="chart-container glass">
+            <h3>Node Cluster Growth</h3>
+            <canvas id="nodesChart"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB content 2: Task Approvals -->
+      <section id="tab-approvals" class="tab-pane">
+        <div class="panel-header">
+          <h2>Pending Review Items</h2>
+          <p>Manual verification items submitted by users</p>
+        </div>
+
+        <div id="approvals-loading" class="spinner-container">
+          <div class="spinner"></div>
+        </div>
+
+        <div id="empty-approvals" class="empty-state hide">
+          <i data-lucide="sparkles" class="icon-huge"></i>
+          <h3>All Cleared!</h3>
+          <p>No task completions are pending verification at the moment.</p>
+        </div>
+
+        <div id="approvals-list" class="approvals-grid">
+          <!-- Dynamically populated -->
+        </div>
+      </section>
+
+      <!-- TAB content 3: User Management -->
+      <section id="tab-users" class="tab-pane">
+        <div class="panel-header search-header">
+          <div>
+            <h2>Registered Operators</h2>
+            <p>View, manage, and toggle status of all network nodes/accounts</p>
+          </div>
+          <div class="search-bar">
+            <i data-lucide="search"></i>
+            <input type="text" id="user-search" placeholder="Search by username or email...">
+          </div>
+        </div>
+
+        <div id="users-loading" class="spinner-container">
+          <div class="spinner"></div>
+        </div>
+
+        <div class="table-container glass">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Operator</th>
+                <th>Email</th>
+                <th>Wallet Address</th>
+                <th>Orbs Balance</th>
+                <th>Nodes</th>
+                <th>Joined Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="users-table-body">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+
+        <div class="pagination" id="users-pagination">
+          <!-- Dynamically populated -->
+        </div>
+      </section>
+
+      <!-- TAB content 4: Announcements -->
+      <section id="tab-announcements" class="tab-pane">
+        <div class="announcements-layout">
+          <!-- Form to create announcement -->
+          <div class="announcement-form-container glass">
+            <h3>Publish Announcement</h3>
+            <form id="announcement-form">
+              <div class="input-group">
+                <label for="ann-title">Title</label>
+                <input type="text" id="ann-title" required placeholder="e.g. Server Maintenance, Epoch End">
+              </div>
+              <div class="input-group">
+                <label for="ann-type">Severity / Type</label>
+                <select id="ann-type" class="select">
+                  <option value="INFO">INFO (Blue Accent)</option>
+                  <option value="SUCCESS">SUCCESS (Green Accent)</option>
+                  <option value="WARNING">WARNING (Orange Accent)</option>
+                </select>
+              </div>
+              <div class="input-group">
+                <label for="ann-content">Message Content</label>
+                <textarea id="ann-content" required placeholder="Write the announcement description details here..." rows="5"></textarea>
+              </div>
+              <button type="submit" class="btn-primary">
+                Broadcast <i data-lucide="send"></i>
+              </button>
+            </form>
+          </div>
+
+          <!-- Existing announcements -->
+          <div class="announcements-list-container">
+            <h3>Active Broadcasts</h3>
+            <div id="announcements-loading" class="spinner-container">
+              <div class="spinner"></div>
+            </div>
+            <div id="announcements-list" class="announcements-list">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Toast notifications system -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Main script -->
+  <script src="app.js"></script>
+  <script>
+    // Initialize Lucide icons on page load
+    document.addEventListener("DOMContentLoaded", () => {
+      lucide.createIcons();
+    });
+  </script>
+</body>
+</html>

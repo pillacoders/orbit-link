@@ -48,4 +48,25 @@ export class AdminController {
       return ApiResponse.success(res, null, 'Announcement deleted');
     } catch (error) { next(error); }
   }
+
+  static async getPendingCompletions(req: AuthRequest, res: Response, next: NextFunction) {
+    try {
+      const completions = await AdminService.getPendingCompletions();
+      return ApiResponse.success(res, completions);
+    } catch (error) { next(error); }
+  }
+
+  static async approveCompletion(req: AuthRequest, res: Response, next: NextFunction) {
+    try {
+      const result = await AdminService.approveCompletion(req.params.id as string);
+      return ApiResponse.success(res, result, 'Task completion approved');
+    } catch (error) { next(error); }
+  }
+
+  static async rejectCompletion(req: AuthRequest, res: Response, next: NextFunction) {
+    try {
+      const result = await AdminService.rejectCompletion(req.params.id as string);
+      return ApiResponse.success(res, result, 'Task completion rejected');
+    } catch (error) { next(error); }
+  }
 }

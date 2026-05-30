@@ -6,6 +6,7 @@ const router = Router();
 
 router.get('/', authMiddleware, TaskController.getAll);
 router.post('/:taskId/complete', authMiddleware, TaskController.complete);
+router.post('/discord/verify', authMiddleware, TaskController.verifyDiscord);
 
 // Admin routes
 router.post('/', authMiddleware, adminMiddleware, TaskController.create);

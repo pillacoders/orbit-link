@@ -143,6 +143,7 @@ model TaskCompletion {
   task        Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
   status      String   @default("PENDING") // PENDING | VERIFIED | REJECTED
   completedAt DateTime @default(now())
+  metadata    String?  // JSON metadata (e.g. twitter username)
 
   @@unique([userId, taskId])
   @@index([userId])
@@ -337,3 +338,13 @@ model InviteCode {
 
   @@index([code])
 }
+
+// ─── Telegram Bot Join Requests ──────────────────────────────────
+
+model TelegramJoinRequest {
+  id               String   @id @default(cuid())
+  telegramUsername String   @unique // Case-insensitive lowercased
+  telegramUserId   String
+  createdAt        DateTime @default(now())
+}
+
